@@ -1,13 +1,5 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <div class="mb-3">
-                <label>Enter some Details</label>
-                <textarea class="form-control" id="exampleFormControlTextarea4" rows="3"></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col">
             <div class="mb-3">
                 <label>Upload project file</label>
@@ -15,22 +7,31 @@
                     :uploadOnDrop="true" :multipleUpload="true" :parallelUpload="2" />
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col">
-            <div class="text-end"><a class="btn btn-success me-3" href="javascript:void(0)">Add</a><a class="btn btn-danger"
+            <div class="text-end"><a class="btn btn-success me-3" href="javascript:void(0)" @click="$parent.submitForm">Add</a>
+                <a class="btn btn-danger"
                     href="javascript:void(0)">Cancel</a></div>
         </div>
     </div>
 </template>
 
 <script>
-import Datepicker1 from '@vuepic/vue-datepicker';
+import Datepicker from "vue3-datepicker";
 import '@vuepic/vue-datepicker/dist/main.css'
+
+import Swal from 'sweetalert2';
 export default {
-    name: 'createProject',
+    name: 'addNewEmployee',
     components: {
-        Datepicker1
+        Datepicker
     },
-}
+  data() {
+    return {
+      startingDate: "",
+      endDate: "",
+    };
+  },
+};
 </script>

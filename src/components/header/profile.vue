@@ -7,9 +7,9 @@
         alt=""
       />
       <div class="media-body">
-        <span>Sameer</span>
+        <span>{{name}}</span>
         <p class="mb-0 font-roboto">
-          Admin <i class="middle fa fa-angle-down"></i>
+          {{email}} <i class="middle fa fa-angle-down"></i>
         </p>
       </div>
     </div>
@@ -37,8 +37,26 @@
 
 <script>
 
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
   export default {
     name: 'Profile',
+    setup() {
+    const store = useStore();
+
+    const name = computed(() => store.state.name);
+    const email = computed(() => store.state.email);
+    // const token = computed(() => store.state.token);
+
+    // rest of your setup function
+
+    return {
+      name,
+      email,
+      // token
+    }
+  },
     methods: {
       logout: function() {
             this.$router.replace('/auth/login');

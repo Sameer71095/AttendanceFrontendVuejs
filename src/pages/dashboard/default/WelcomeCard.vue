@@ -5,8 +5,8 @@
             <div class="media">
                 <div class="media-body">
                     <div class="greeting-user">
-                        <h4 class="f-w-600 mb-0">Welcome to cuba</h4>
-                        <p>Here whats happing in your account today</p>
+                        <h4 class="f-w-600 mb-0">Welcome to {{appName}}</h4>
+                        <p>Here whats happening in your account today</p>
                         <div class="whatsnew-btn">
                             <a class="btn btn-outline-white">Whats New !</a>
                         </div>
@@ -46,12 +46,16 @@
 </template>
 
 <script>
+
+import { appName } from '../../../constants/config';
 export default {
+    
     data() {
         return {
             interval: "",
             greeting: "",
             time: "",
+            appName,
         };
     },
     mounted() {

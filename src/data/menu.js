@@ -19,10 +19,15 @@ export var menuItems={
           "title": "Default",
           "type": "link",
           "active":false
+        },
+        {
+          "path": "/dashboard/employee",
+          "title": "Employee",
+          "type": "link",
+          "active":false
         }
       ]
     },
-   
     {
       "headTitle1": "Applications",
       "headTitle2": "Ready to use apps",
@@ -48,7 +53,30 @@ export var menuItems={
           "title": "Add Employee",
           "type": "link",
           "active": false
-        }
+        },
+        // {
+        //   "path": "/employee/create-employee",
+        //   "title": "Create Employee",
+        //   "type": "link",
+        //   "active": false
+        // }
+      ]
+    },
+    {
+      "title": "attendance",
+      "icon": "stroke-project",
+      "iconf":"fill-project",
+      "type": "sub",
+      "badgeType": "light-secondary",
+      "badgeValue": "New",
+      "active": false,
+      "children": [
+        {
+          "path": "/attendance/viewattendance",
+          "title": "View Attendance",
+          "type": "link",
+          "active": false
+        },
       ]
     }
   ]

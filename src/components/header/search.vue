@@ -3,7 +3,7 @@
     <div class="form-group w-100">
       <div class="Typeahead Typeahead--twitterUsers">
         <div class="u-posRelative">
-          <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" v-model="terms" placeholder="Search Cuba .." name="q" title="" autofocus />
+          <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" v-model="terms" placeholder="Search .." name="q" title="" autofocus />
           <div class="spinner-border Typeahead-spinner" role="status">
             <span class="sr-only">Loading...</span>
           </div>

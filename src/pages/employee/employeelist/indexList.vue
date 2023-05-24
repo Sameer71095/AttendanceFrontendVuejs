@@ -1,5 +1,5 @@
 <template>
-    <Breadcrumbs main="Project" title="Employee List" />
+    <Breadcrumbs main="Employee" title="Employee List" />
 
     <div class="container-fluid">
         <div class="row project-cards">

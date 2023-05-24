@@ -1,4 +1,5 @@
 import {createStore} from 'vuex'
+import createPersistedState from 'vuex-persistedstate';
 
 import layout from './modules/layout';
 import menu from './modules/menu';
@@ -15,7 +16,10 @@ import language from "./modules/language"
 
 
 export default createStore({
-  state:{langIcon: '',langLangauge: '',isActive:false},
+  state:{langIcon: '',langLangauge: '',isActive:false,
+  name: '',
+  email: '',
+  token: '',},
   getters:{
     langIcon: (state)=>{ return state.langIcon},
     langLangauge:(state)=>{return state.langLangauge}
@@ -26,11 +30,16 @@ export default createStore({
         localStorage.setItem('currentLanguageIcon', payload.icon);
         state.langIcon = payload.icon || 'flag-icon-us'
         state.langLangauge = payload.id || 'EN'
+      },  setUserInfo(state, user) {
+        state.name = user.name;
+        state.email = user.email;
+        state.token = user.token;
       },
       change(state){
         state.isActive = !state.isActive
       }
     },
+    plugins: [createPersistedState()],
     actions: {
       setLang ({ commit }, payload) {
         commit('changeLang', payload);  

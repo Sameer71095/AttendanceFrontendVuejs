@@ -45,6 +45,15 @@ import لعربية from "./locales/ae.json"
 import { defaultLocale, localeOptions } from './constants/config';
 import Toast, {POSITION, useToast} from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import ElementPlus from 'element-plus';
+import { GridLayout, GridItem } from 'vue3-grid-layout';
+import axios from 'axios';
+import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
+import './assets/css/global.css'
+
+import { baseApiURL } from './constants/config';
+
 
  const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;
  const i18n = createI18n({
@@ -61,5 +70,10 @@ import "vue-toastification/dist/index.css";
 
     }
  });
-createApp(App).use(Toast).use(i18n).use(SimpleTypeahead).use(VueMasonryPlugin).use(VueNumber).component("vue3-star-ratings", vue3StarRatings).use(quillEditor).use(Lightbox).use(store).use(VueSweetalert2).use(VueAnimateOnScroll).use(Vue3Toasity).use(Vue3Tour).use(Toaster).use(router).component("settingPage", settingPage).component("b-card", bcard).use(PerfectScrollbar).use(DropZone).component('multiselect', Multiselect).component(VueFeather.name, VueFeather).component('Breadcrumbs', Breadcrumbs).component("apexchart", VueApexCharts).component('EasyDataTable', Vue3EasyDataTable).use(require('vue-chartist')).component('Datepicker', Datepicker).mount('#app')
+
+ axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem("authToken")}`;
+
+// If you need to set the baseURL globally, you can do this as well:
+axios.defaults.baseURL = baseApiURL;
+createApp(App).use(ElementPlus).use(setupCalendar, {}).use(Toast).use(i18n).use(SimpleTypeahead).use(VueMasonryPlugin).use(VueNumber).component("vue3-star-ratings", vue3StarRatings).use(quillEditor).use(Lightbox).use(store).use(VueSweetalert2).use(VueAnimateOnScroll).use(Vue3Toasity).use(Vue3Tour).use(Toaster).use(router).component("settingPage", settingPage).component("b-card", bcard).use(PerfectScrollbar).use(DropZone).component('multiselect', Multiselect).component(VueFeather.name, VueFeather).component('Breadcrumbs', Breadcrumbs).component("apexchart", VueApexCharts).component('EasyDataTable', Vue3EasyDataTable).use(require('vue-chartist')).component('Datepicker', Datepicker).component('GridLayout', GridLayout).component('GridItem', GridItem).component('VCalendar', Calendar).component('VDatePicker', DatePicker).mount('#app')
 

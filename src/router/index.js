@@ -3,27 +3,29 @@ import Body from '../components/body';
 
 /* Dashboards */
 import Default from '../pages/dashboard/default';
+import EmployeeDashboard from '../pages/dashboard/employee';
 // employee
 import addEmployee from '../pages/employee/addemployee/addEmployee.vue'
+import createEmployee from '../pages/employee/createemployee/createemployee.vue'
 import indexList from '../pages/employee/employeelist/indexList.vue'
 
+import attendance from '../pages/attendance/attendance.vue'
 
 import login from '../auth/login';
 import Register from '../auth/register';
+import { appName } from '../constants/config';
 // // SAMPLE PAGE
 import sample_page from "../pages/sample_page"
 const routes = [
     {
         path: '/',
         component: Body,
-    
         children: [
           {
             path: '',
             name: 'defaultRoot',
             component: Default,
           },
-    
         ]
       },
     {
@@ -33,14 +35,21 @@ const routes = [
           requiresAuth: true
         },
         children: [
-        {
-          path: 'default',
-          name: 'default',
-          component: Default,
-          meta: {
-            title: 'Default Dashboard | Cuba - Premium Admin Template',
-          }
-        },
+          {
+            path: 'default',
+            name: 'default',
+            component: Default,
+            meta: {
+              title: appName,
+            }
+          },   {
+            path: 'employee',
+            name: 'employee',
+            component: EmployeeDashboard,
+            meta: {
+              title: appName,
+            }
+          },
         ]
       },
       {
@@ -56,10 +65,25 @@ const routes = [
             path: 'add-employee',
             name: 'addEmployee',
             component: addEmployee
+          },
+          {
+            path: 'create-employee',
+            name: 'createEmployee',
+            component: createEmployee
           }
         ]
       },
-      
+      {
+        path: '/attendance',
+        component: Body,
+        children: [
+          {
+            path: 'viewattendance',
+            name: 'viewattendance',
+            component: attendance
+          }
+        ]
+      },
       {
         path: '/auth',
         children: [
@@ -68,7 +92,7 @@ const routes = [
           name: 'Login 1',
           component: login,
           meta: {
-            title: ' login | Cuba - Premium Admin Template',
+            title: ' login | '+appName,
           }
         },
         {
@@ -76,7 +100,7 @@ const routes = [
           name: 'register 1',
           component: Register,
           meta: {
-            title: ' Register | Cuba - Premium Admin Template',
+            title: ' Register | '+appName,
           }
         }
         ]

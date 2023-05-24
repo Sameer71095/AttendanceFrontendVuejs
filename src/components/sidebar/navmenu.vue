@@ -1,8 +1,7 @@
 <template>
     <div id="sidebar-menu">
-
-        <ul class="sidebar-links custom-scrollbar" id="myDIV"
-            :style="[layoutobject.split(' ').includes('horizontal-wrapper') ? layout.settings.layout_type == 'rtl' ? { '  -right': margin + 'px' } : { 'margin-left': margin + 'px' } : { margin: '0px' }]">
+    
+        <ul class="sidebar-links custom-scrollbar" id="myDIV" :style="[layoutobject.split(' ').includes('horizontal-wrapper') ? layout.settings.layout_type == 'rtl' ? { '  -right': margin + 'px' } : { 'margin-left': margin + 'px' } : { margin: '0px' }]">
             <li class="back-btn">
                 <router-link to="/">
                     <img class="img-fluid" src="../../assets/images/logo/logo-icon.png" alt="" /></router-link>
@@ -15,139 +14,119 @@
                     <h6>Pinned</h6>
                 </div>
             </li>
-            <li v-for="(menuItem, index) in menuItems" :key="index" class="sidebar-list"
-                :class="{ ' sidebar-main-title': menuItem.type == 'headtitle', 'hoverd': menuItem.active == true && this.layoutobject.split(' ').includes('horizontal-wrapper') }, menuItem.showPin ? 'pined' : ''">
-
+            <li v-for="(menuItem, index) in menuItems" :key="index" class="sidebar-list" :class="{ ' sidebar-main-title': menuItem.type == 'headtitle', 'hoverd': menuItem.active == true && this.layoutobject.split(' ').includes('horizontal-wrapper') }, menuItem.showPin ? 'pined' : ''">
+    
                 <div v-if="menuItem.type == 'headtitle'">
                     <h6 class="lan-1">{{ (menuItem.headTitle1) }}</h6>
                 </div>
-
-                <i v-if="menuItem.type != 'headtitle'" class="fa fa-thumb-tack"
-                    @click="togglePinnedName({ item: menuItem })"></i>
+    
+                <i v-if="menuItem.type != 'headtitle'" class="fa fa-thumb-tack" @click="togglePinnedName({ item: menuItem })"></i>
                 <label :class="'badge badge-' + menuItem.badgeType" v-if="menuItem.badgeType">{{ (menuItem.badgeValue)
-                }}</label>
-                <a href="javascript:void(0)" class="sidebar-link sidebar-title" :class="{ 'active': menuItem.active }"
-                    v-if="menuItem.type == 'sub'" @click="setNavActive(menuItem, index)"
-                    @mouseover="setNavActiveh(menuItem, index)">
+                    }}</label>
+                <a href="javascript:void(0)" class="sidebar-link sidebar-title" :class="{ 'active': menuItem.active }" v-if="menuItem.type == 'sub'" @click="setNavActive(menuItem, index)" @mouseover="setNavActiveh(menuItem, index)">
+                        <svg class="stroke-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                        </svg>
+                        <span class="lan-3">
+                            {{ $t(menuItem.title) }}
+                        </span>
+                        <div class="according-menu" v-if="menuItem.children">
+                            <i class="fa fa-angle-right pull-right"></i>
+                        </div>
+                    </a>
+    
+                <router-link :to="menuItem.path" class="sidebar-link sidebar-title" v-if="menuItem.type == 'link'" :class="{ 'active': menuItem.active }" v-on:click="hidesecondmenu()" @click="setNavActive(menuItem, index)" @mouseover="setNavActiveh(menuItem, index)">
                     <svg class="stroke-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
-                    </svg>
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                        </svg>
                     <svg class="fill-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
-                    </svg>
-                    <span class="lan-3">
-                        {{ $t(menuItem.title) }}
-                    </span>
-                    <div class="according-menu" v-if="menuItem.children">
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </div>
-                </a>
-
-                <router-link :to="menuItem.path" class="sidebar-link sidebar-title" v-if="menuItem.type == 'link'"
-                    :class="{ 'active': menuItem.active }" v-on:click="hidesecondmenu()"
-                    @click="setNavActive(menuItem, index)" @mouseover="setNavActiveh(menuItem, index)">
-                    <svg class="stroke-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
-                    </svg>
-                    <svg class="fill-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
-                    </svg>
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                        </svg>
                     <span>
-                        {{ $t(menuItem.title) }}
-                    </span>
+                            {{ $t(menuItem.title) }}
+                        </span>
                     <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
                 </router-link>
-
-                <a :href="menuItem.path" class="sidebar-link sidebar-title" v-if="menuItem.type == 'extLink'"
-                    @click="setNavActive(menuItem, index)">
-                    <svg class="stroke-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
-                    </svg>
-                    <svg class="fill-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
-                    </svg>
-                    <span>
-                        {{ (menuItem.title) }}
-                    </span>
-                    <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
-                </a>
-
-                <a :href="menuItem.path" target="_blank" class="sidebar-link sidebar-title"
-                    v-if="menuItem.type == 'extTabLink'" @click="setNavActive(menuItem, index)">
-                    <svg class="stroke-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
-                    </svg>
-                    <svg class="fill-icon">
-                        <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
-                    </svg>
-                    <span>
-                        {{ (menuItem.title) }}
-                    </span>
-                    <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
-                </a>
-
-                <ul class="sidebar-submenu" v-if="menuItem.children" :class="{ 'menu-open': menuItem.active }"
-                    :style="{ display: menuItem.active ? '' : 'none' }">
+    
+                <a :href="menuItem.path" class="sidebar-link sidebar-title" v-if="menuItem.type == 'extLink'" @click="setNavActive(menuItem, index)">
+                        <svg class="stroke-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                        </svg>
+                        <span>
+                            {{ (menuItem.title) }}
+                        </span>
+                        <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
+                    </a>
+    
+                <a :href="menuItem.path" target="_blank" class="sidebar-link sidebar-title" v-if="menuItem.type == 'extTabLink'" @click="setNavActive(menuItem, index)">
+                        <svg class="stroke-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.icon}`"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use :xlink:href="require('@/assets/svg/icon-sprite.svg') + `#${menuItem.iconf}`"></use>
+                        </svg>
+                        <span>
+                            {{ (menuItem.title) }}
+                        </span>
+                        <i class="fa fa-angle-right pull-right" v-if="menuItem.children"></i>
+                    </a>
+    
+                <ul class="sidebar-submenu" v-if="menuItem.children" :class="{ 'menu-open': menuItem.active }" :style="{ display: menuItem.active ? '' : 'none' }">
                     <li v-for="(childrenItem, index) in menuItem.children" :key="index">
-
-                        <a class="lan-4" :class="{ 'active': childrenItem.active }" href="javascript:void(0)"
-                            v-if="childrenItem.type == 'sub'" @click="setNavActive(childrenItem, index)">
+    
+                        <a class="lan-4" :class="{ 'active': childrenItem.active }" href="javascript:void(0)" v-if="childrenItem.type == 'sub'" @click="setNavActive(childrenItem, index)">
+                                {{ (childrenItem.title) }}
+                                <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
+                                    v-if="childrenItem.badgeType">{{ childrenItem.badgeValue }}</label>
+                                <i class="fa pull-right mt-1"
+                                    v-bind:class="[childrenItem.active ? 'fa fa-angle-down' : 'fa fa-angle-right']"
+                                    v-if="childrenItem.children"></i>
+                            </a>
+    
+                        <router-link class="lan-4" :class="{ 'active': childrenItem.active }" :to="childrenItem.path" v-if="childrenItem.type == 'link'" @click="setNavActive(childrenItem, index)" v-on:click="hidesecondmenu()">
                             {{ (childrenItem.title) }}
-                            <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
-                                v-if="childrenItem.badgeType">{{ childrenItem.badgeValue }}</label>
-                            <i class="fa pull-right mt-1"
-                                v-bind:class="[childrenItem.active ? 'fa fa-angle-down' : 'fa fa-angle-right']"
-                                v-if="childrenItem.children"></i>
-                        </a>
-
-                        <router-link class="lan-4" :class="{ 'active': childrenItem.active }" :to="childrenItem.path"
-                            v-if="childrenItem.type == 'link'" @click="setNavActive(childrenItem, index)"
-                            v-on:click="hidesecondmenu()">
-                            {{ (childrenItem.title) }}
-                            <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
-                                v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
+                            <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'" v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
                             <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
                         </router-link>
-
+    
                         <a :href="childrenItem.path" v-if="childrenItem.type == 'extLink'" class="submenu-title">
-                            {{ (childrenItem.title) }}
-                            <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
-                                v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
-                            <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
-                        </a>
-
-                        <a class="submenu-title" :href="childrenItem.path" target="_blank"
-                            v-if="childrenItem.type == 'extTabLink'">
-                            {{ (childrenItem.title) }}
-                            <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
-                                v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
-                            <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
-                        </a>
-
-                        <ul class="nav-sub-childmenu submenu-content" v-if="childrenItem.children"
-                            :class="{ 'opensubchild': childrenItem.active }">
+                                {{ (childrenItem.title) }}
+                                <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
+                                    v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
+                                <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
+                            </a>
+    
+                        <a class="submenu-title" :href="childrenItem.path" target="_blank" v-if="childrenItem.type == 'extTabLink'">
+                                {{ (childrenItem.title) }}
+                                <label :class="'badge badge-' + childrenItem.badgeType + ' pull-right'"
+                                    v-if="childrenItem.badgeType">{{ (childrenItem.badgeValue) }}</label>
+                                <i class="fa fa-angle-right pull-right mt-1" v-if="childrenItem.children"></i>
+                            </a>
+    
+                        <ul class="nav-sub-childmenu submenu-content" v-if="childrenItem.children" :class="{ 'opensubchild': childrenItem.active }">
                             <li v-for="(childrenSubItem, index) in childrenItem.children" :key="index">
-
-                                <router-link :class="{ 'active': childrenSubItem.active }" :to="childrenSubItem.path"
-                                    v-if="childrenSubItem.type == 'link'" v-on:click="hidesecondmenu()"
-                                    @click="setNavActive(childrenSubItem, index)">
+    
+                                <router-link :class="{ 'active': childrenSubItem.active }" :to="childrenSubItem.path" v-if="childrenSubItem.type == 'link'" v-on:click="hidesecondmenu()" @click="setNavActive(childrenSubItem, index)">
                                     {{ (childrenSubItem.title) }}
-                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'"
-                                        v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
+                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'" v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
                                     <i class="fa fa-angle-right pull-right" v-if="childrenSubItem.children"></i>
                                 </router-link>
-
+    
                                 <router-link :to="childrenSubItem.path" v-if="childrenSubItem.type == 'extLink'">
                                     {{ (childrenSubItem.title) }}
-                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'"
-                                        v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
+                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'" v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
                                     <i class="fa fa-angle-right pull-right" v-if="childrenSubItem.children"></i>
                                 </router-link>
-
+    
                                 <router-link :to="childrenSubItem.path" v-if="childrenSubItem.type == 'extLink'">
                                     {{ (childrenSubItem.title) }}
-                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'"
-                                        v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
+                                    <label :class="'badge badge-' + childrenSubItem.badgeType + ' pull-right'" v-if="childrenSubItem.badgeType">{{ (childrenSubItem.badgeValue) }}</label>
                                     <i class="fa fa-angle-right pull-right" v-if="childrenSubItem.children"></i>
                                 </router-link>
                             </li>
@@ -200,10 +179,10 @@ export default {
             }
         },
         layoutobject: {
-            get: function () {
+            get: function() {
                 return JSON.parse(JSON.stringify(layoutClasses.find((item) => Object.keys(item).pop() === this.layout.settings.layout)))[this.layout.settings.layout];
             },
-            set: function () {
+            set: function() {
                 this.layoutobj = layoutClasses.find((item) => Object.keys(item).pop() === this.layout.settings.layout);
                 this.layoutobj = JSON.parse(JSON.stringify(this.layoutobj))[this.layout.settings.layout];
                 return this.layoutobj;
@@ -232,8 +211,7 @@ export default {
         }
 
     },
-    created() {
-
+    mounted() {
         window.addEventListener('resize', this.handleResize);
         this.handleResize();
         if (this.$store.state.menu.width < 991) {
@@ -243,14 +221,18 @@ export default {
         setTimeout(() => {
             const elmnt = document.getElementById('myDIV');
 
-            this.$store.state.menu.menuWidth = elmnt.offsetWidth;
-            this.$store.state.menu.menuWidth > window.innerWidth ?
-                (this.$store.state.menu.hideRightArrow = false, this.$store.state.menu.hideLeftArrowRTL = false) :
-                (this.$store.state.menu.hideRightArrow = false, this.$store.state.menu.hideLeftArrowRTL = true);
+            // Always check if the element exists before using it.
+            if (elmnt) {
+                this.$store.state.menu.menuWidth = elmnt.offsetWidth;
+                this.$store.state.menu.menuWidth > window.innerWidth ?
+                    (this.$store.state.menu.hideRightArrow = false, this.$store.state.menu.hideLeftArrowRTL = false) :
+                    (this.$store.state.menu.hideRightArrow = false, this.$store.state.menu.hideLeftArrowRTL = true);
+            } else {
+                console.error("'myDIV' element does not exist!");
+            }
         }, 500);
         this.layoutobject = layoutClasses.find((item) => Object.keys(item).pop() === this.layout.settings.layout);
         this.layoutobject = JSON.parse(JSON.stringify(this.layoutobject))[this.layout.settings.layout];
-
     },
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
