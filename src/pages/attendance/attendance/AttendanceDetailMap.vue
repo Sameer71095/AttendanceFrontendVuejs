@@ -79,24 +79,38 @@ export default {
     LPopup
 
     },
-    
     watch: {
         activeData: {
             handler: function (val) {
-                let latSum = 0, lngSum = 0, count = 0;
-                for (let check of val.checked) {
-                    latSum += check.latitude;
-                    lngSum += check.longitude;
-                    count++;
+                if (!val || !val.checked || !Array.isArray(val.checked)) {
+                    console.warn('Invalid activeData: ', val);
+                    return;
                 }
-                if (count > 0) {
-                    this.center = [latSum / count, lngSum / count];
+
+                const validChecks = val.checked.filter(check => 
+                    typeof check.latitude === 'number' && typeof check.longitude === 'number'
+                );
+
+                if (validChecks.length === 0) {
+                    console.warn('No valid checks: ', val.checked);
+                    return;
                 }
+
+                const { latSum, lngSum, count } = validChecks.reduce((acc, check) => {
+                    return {
+                        latSum: acc.latSum + check.latitude,
+                        lngSum: acc.lngSum + check.longitude,
+                        count: acc.count + 1
+                    };
+                }, { latSum: 0, lngSum: 0, count: 0 });
+
+                this.center = [latSum / count, lngSum / count];
             },
             deep: true,
             immediate: true
         }
     },
+
     data() {
         return {
             data: data,

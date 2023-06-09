@@ -18,9 +18,9 @@
                                     <!-- Add col-3 class here -->
                                     <div>
                                         <!-- <div class="input-group m-0 flex-nowrap">
-                                                                            <input class="form-control-plaintext" type="search" placeholder="Sameer ..">
-                                                                            <span class="btn btn-primary input-group-text">Search</span>
-                                                                        </div> -->
+                                                                                    <input class="form-control-plaintext" type="search" placeholder="Sameer ..">
+                                                                                    <span class="btn btn-primary input-group-text">Search</span>
+                                                                                </div> -->
     
     
                                         <div class="mb-2">
@@ -31,69 +31,91 @@
                                     </div>
                                 </div>
     
-                                <div class="col-12 col-md-6 col-lg-4"> <!-- Responsive classes -->
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <!-- Responsive classes -->
                                     <div class="input-group m-0 flex-nowrap">
                                         <VCalendar :attributes="attributes" expanded transparent borderless title-position="left" show-weeknumbers>
-<template #day-popover="{ dayTitle, attributes }">
-    <div class="px-2">
-        <div class="text-xs text-gray-700 dark:text-gray-300 font-semibold text-center">
-            {{ dayTitle }}
-        </div>
-        <ul>
-            <li v-for="{ key, customData } in attributes" :key="key" class="block text-xs text-gray-700 dark:text-gray-300 bg-red-100">
-                {{ customData.description }}
-            </li>
-        </ul>
-    </div>
-</template>
-                                          </VCalendar>
-                                          
-                                          
-        </div>
-    </div>
+                                            <template #day-popover="{ dayTitle, attributes }">
+                                                    <div class="px-2">
+                                                        <div
+                                                            class="text-xs text-gray-700 dark:text-gray-300 font-semibold text-center">
+                                                            {{ dayTitle }}
+                                                        </div>
+                                                        <ul>
+                                                            <li v-for="{ key, customData } in attributes" :key="key"
+                                                                class="block text-xs text-gray-700 dark:text-gray-300 bg-red-100">
+                                                                {{ customData.description }}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            </template>
+                                        </VCalendar>
+
+
+                                    </div>
+                                </div>
                             </div>
                             <!-- Close row div -->
                         </form>
                     </div>
-    
+
                     <div class="card-body">
                         <div class="text-center">
                             <ul class="nav nav-tabs search-list" id="top-tab" role="tablist">
                                 <li class="nav-item" v-on:click="changetab('all')">
-                                    <a class="nav-link " :class="{'show active': showtab == 'all' }" id="top-all" data-bs-toggle="tab" role="tab" aria-controls="all" aria-selected="false"><i class="icon-target"></i>All</a>
+                                    <a class="nav-link " :class="{'show active': showtab == 'all' }" id="top-all"
+                                        data-bs-toggle="tab" role="tab" aria-controls="all" aria-selected="false"><i
+                                            class="icon-target"></i>All</a>
                                 </li>
                                 <li class="nav-item" v-on:click="changetab('images')">
-                                    <a class="nav-link" :class="{'show active': showtab == 'images' }" id="top-images" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false"><i class="icon-image"></i>Basic Info </a>
+                                    <a class="nav-link" :class="{'show active': showtab == 'images' }" id="top-images"
+                                        data-toggle="tab" role="tab" aria-controls="images" aria-selected="false"><i
+                                            class="icon-image"></i>Basic Info </a>
                                 </li>
                                 <li class="nav-item" v-on:click="changetab('videos')">
-                                    <a class="nav-link" :class="{'show active': showtab == 'videos' }" id="top-videos" data-toggle="tab" role="tab" aria-controls="videos" aria-selected="false"><i class="icon-video-clapper"></i>Attendance</a>
+                                    <a class="nav-link" :class="{'show active': showtab == 'videos' }" id="top-videos"
+                                        data-toggle="tab" role="tab" aria-controls="videos" aria-selected="false"><i
+                                            class="icon-video-clapper"></i>Attendance</a>
                                 </li>
                                 <li class="nav-item" v-on:click="changetab('audio')">
-                                    <a class="nav-link" :class="{'show active': showtab == 'audio' }" id="audios-link" data-toggle="tab" role="tab" aria-controls="maps" aria-selected="false"><i class="icon-map-alt"> </i>Payroll</a>
+                                    <a class="nav-link" :class="{'show active': showtab == 'audio' }" id="audios-link"
+                                        data-toggle="tab" role="tab" aria-controls="maps" aria-selected="false"><i
+                                            class="icon-map-alt"> </i>Payroll</a>
                                 </li>
                                 <li class="nav-item bg-light-success" v-on:click="changetab('settings')">
-                                    <a class="nav-link txt-success" :class="{'show active': showtab == 'settings' }" id="setting-link" data-toggle="tab" role="tab" aria-controls="settings" aria-selected="false">Leaves</a>
+                                    <a class="nav-link txt-success" :class="{'show active': showtab == 'settings' }"
+                                        id="setting-link" data-toggle="tab" role="tab" aria-controls="settings"
+                                        aria-selected="false">Leaves</a>
                                 </li>
-                                <li class="nav-item bg-light-secondary" v-on:click="changetab('tools')"><a class="nav-link txt-secondary" :class="{'show active': showtab == 'settings' }" id="setting-link" data-bs-toggle="tab" href="#tools-links" role="tab" aria-selected="false">Policy</a></li>
+                                <li class="nav-item bg-light-secondary" v-on:click="changetab('tools')"><a
+                                        class="nav-link txt-secondary" :class="{'show active': showtab == 'settings' }"
+                                        id="setting-link" data-bs-toggle="tab" href="#tools-links" role="tab"
+                                        aria-selected="false">Policy</a></li>
                             </ul>
                         </div>
                         <div class="tab-content" id="top-tabContent">
-                            <div class="search-links tab-pane fade" :class="{'show active': showtab == 'all' }" id="all-links" role="tabpanel" aria-labelledby="all">
+                            <div class="search-links tab-pane fade" :class="{'show active': showtab == 'all' }"
+                                id="all-links" role="tabpanel" aria-labelledby="all">
                                 <allView />
                             </div>
-                            <div class="tab-pane fade" :class="{'show active': showtab == 'images' }" id="about" role="tabpanel" aria-labelledby="images">
+                            <div class="tab-pane fade" :class="{'show active': showtab == 'images' }" id="about"
+                                role="tabpanel" aria-labelledby="images">
                                 <imagesView />
                             </div>
-                            <div class="tab-pane fade" :class="{'show active': showtab == 'videos' }" id="friends" role="tabpanel" aria-labelledby="videos">
+                            <div class="tab-pane fade" :class="{'show active': showtab == 'videos' }" id="friends"
+                                role="tabpanel" aria-labelledby="videos">
                                 <videoView />
                             </div>
-                            <div class="tab-pane fade" :class="{'show active': showtab == 'audio' }" id="friends" role="tabpanel" aria-labelledby="maps">
+                            <div class="tab-pane fade" :class="{'show active': showtab == 'audio' }" id="friends"
+                                role="tabpanel" aria-labelledby="maps">
                                 <videoView />
                             </div>
-                            <div class="tab-pane fade" :class="{'show active': showtab == 'settings' }" id="photos" role="tabpanel" aria-labelledby="settings">
+                            <div class="tab-pane fade" :class="{'show active': showtab == 'settings' }" id="photos"
+                                role="tabpanel" aria-labelledby="settings">
                                 <videoView />
                             </div>
-                            <div class="tab-pane fade" :class="{'show active': showtab == 'tools' }" id="photos" role="tabpanel" aria-labelledby="settings">
+                            <div class="tab-pane fade" :class="{'show active': showtab == 'tools' }" id="photos"
+                                role="tabpanel" aria-labelledby="settings">
                                 <videoView />
                             </div>
                         </div>
@@ -103,16 +125,21 @@
         </div>
     </div>
 </template>
-    
+
 <script>
 import WelcomeCard from "./default/WelcomeCard.vue";
 import allView from "./employee/allView.vue"
 import imagesView from "./employee/imagesView.vue"
 import videoView from "./employee/videoView.vue"
-import { DatePicker } from 'v-calendar';
+import {
+    DatePicker
+} from 'v-calendar';
 import axios from 'axios';
 
-import { ref, computed } from 'vue';
+import {
+    ref,
+    computed
+} from 'vue';
 
 
 export default {
@@ -198,4 +225,3 @@ export default {
     }
 }
 </script>
-    

@@ -1,8 +1,8 @@
 <template>
     <li class="nav-item">
         <button class="badge-light-primary btn-block btn-mail w-100" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                                    <vue-feather class="me-2" type="users"></vue-feather> Search Employee
-                                                                </button>
+                                                                        <vue-feather class="me-2" type="users"></vue-feather> Search Employee
+                                                                    </button>
         <Teleport to="body">
             <div class="modal fade modal-bookmark" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -49,7 +49,7 @@ import { ref } from 'vue';
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
 import { Modal } from 'bootstrap';
-
+import moment from 'moment-timezone';
 
 
 export default {
@@ -140,7 +140,7 @@ export default {
         },
         search() {
             console.log(this.value); // Log the value array
-            console.log(this.range)
+            console.log(this.range);
             if (this.value.length == 0) {
                 alert('Please select an employee.');
                 return;
@@ -149,25 +149,19 @@ export default {
                 alert('Please select a date range.');
                 return;
             }
-
             var selectedEmployee = this.value; // Assuming you are selecting only one employee at a time.
-
+            let startInDubai = moment.tz(this.range.start, "Asia/Dubai").startOf('day').format();
+let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
             console.log(selectedEmployee.employeeId); // Log the employeeId
             axios.post('/Attendance/GetAttendanceHistoryDetail', {
                     EmployeeId: selectedEmployee.employeeId,
-                    StartDate: this.range.start,
-                    EndDate: this.range.end
+                    StartDate: startInDubai,
+                    EndDate: endInDubai
                 })
                 .then(response => {
-
-
                     // Emit the response to the parent
                     this.$emit('attendanceGenerated', response.data);
                     // this.hideModal('exampleModal');
-
-
-
-
                 })
                 .catch(error => {
                     console.error('There was an error!', error);
@@ -184,14 +178,14 @@ export default {
                 alert('Please select a date range.');
                 return;
             }
-
             var selectedEmployee = this.value; // Assuming you are selecting only one employee at a time.
-
+            let startInDubai = moment.tz(this.range.start, "Asia/Dubai").startOf('day').format();
+let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
             console.log(selectedEmployee.employeeId); // Log the employeeId
             axios.post('/Attendance/ExportAttendanceHistory', {
                     EmployeeId: selectedEmployee.employeeId,
-                    StartDate: this.range.start,
-                    EndDate: this.range.end
+                    StartDate: startInDubai,
+                    EndDate: endInDubai
                 }, {
                     responseType: 'blob', // Important
                 })
@@ -202,8 +196,6 @@ export default {
                     link.setAttribute('download', 'AttendanceHistory.xlsx'); // Set the Excel file name here
                     document.body.appendChild(link);
                     link.click();
-
-
                     // this.hideModal('exampleModal');
                 })
                 .catch(error => {
