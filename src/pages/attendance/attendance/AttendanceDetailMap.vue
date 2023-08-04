@@ -62,6 +62,7 @@ import data from '@/data/contact.json'
 import historyPage from './historyPage.vue'
 import editPage from './editPage.vue'
 import { mapGetters } from 'vuex'
+
 export default {
 
     props: {
@@ -77,7 +78,6 @@ export default {
     LTileLayer,
     LMarker,
     LPopup
-
     },
     watch: {
         activeData: {

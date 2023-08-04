@@ -22,14 +22,13 @@
                                         </div>
                                     </div>
                                     <div class="mb-3 col-md-12 mt-0">
-    
-    
                                         <DatePicker v-model="range" is-range/>
                                     </div>
                                 </div>
                                 <input id="index_var" type="hidden" value="5">
                                 <button class="btn btn-success" type="button" @click="search()">Search</button>
                                 <button class="btn btn-primary  ms-2" type="button" @click="generateExcel()">Generate Excel</button>
+                                <button class="btn btn-primary  ms-2" type="button" @click="generateAllExcel()">Generate All Excels</button>
                                 <button class="btn btn-secondary ms-2" type="button" data-bs-dismiss="modal">Cancel</button>
                             </form>
                         </div>
@@ -151,7 +150,7 @@ export default {
             }
             var selectedEmployee = this.value; // Assuming you are selecting only one employee at a time.
             let startInDubai = moment.tz(this.range.start, "Asia/Dubai").startOf('day').format();
-let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
+            let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
             console.log(selectedEmployee.employeeId); // Log the employeeId
             axios.post('/Attendance/GetAttendanceHistoryDetail', {
                     EmployeeId: selectedEmployee.employeeId,
@@ -180,7 +179,7 @@ let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
             }
             var selectedEmployee = this.value; // Assuming you are selecting only one employee at a time.
             let startInDubai = moment.tz(this.range.start, "Asia/Dubai").startOf('day').format();
-let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
+            let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
             console.log(selectedEmployee.employeeId); // Log the employeeId
             axios.post('/Attendance/ExportAttendanceHistory', {
                     EmployeeId: selectedEmployee.employeeId,
@@ -194,6 +193,42 @@ let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
                     const link = document.createElement('a');
                     link.href = url;
                     link.setAttribute('download', 'AttendanceHistory.xlsx'); // Set the Excel file name here
+                    document.body.appendChild(link);
+                    link.click();
+                    // this.hideModal('exampleModal');
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        },
+        
+        generateAllExcel() {
+            console.log(this.value); // Log the value array
+            console.log(this.range)
+            if (this.value.length == 0) {
+                alert('Please select an employee.');
+                return;
+            }
+            if (!this.range.start || !this.range.end) {
+                alert('Please select a date range.');
+                return;
+            }
+         //   var selectedEmployee = this.value; // Assuming you are selecting only one employee at a time.
+            let startInDubai = moment.tz(this.range.start, "Asia/Dubai").startOf('day').format();
+            let endInDubai = moment.tz(this.range.end, "Asia/Dubai").endOf('day').format();
+        //    console.log(selectedEmployee.employeeId); // Log the employeeId
+            axios.post('/Attendance/ExportAttendanceHistory', {
+                    EmployeeId: 0,
+                    StartDate: startInDubai,
+                    EndDate: endInDubai
+                }, {
+                    responseType: 'blob', // Important
+                })
+                .then(response => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'AllAttendance.xlsx'); // Set the Excel file name here
                     document.body.appendChild(link);
                     link.click();
                     // this.hideModal('exampleModal');

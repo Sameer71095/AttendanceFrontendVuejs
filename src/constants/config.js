@@ -2,7 +2,7 @@
 // export const baseApiURL = 'http://clockspotter.com:5000/Api';
 export const baseApiURL = 'https://api.clockspotter.com/Api';
 export const appName = 'ClockSpotter';
-// export const appName = 'SAI Attendance';
+ //export const appName = 'SAI Attendance';
 
 export const defaultLocale = 'en';
 export const localeOptions=[
